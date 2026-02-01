@@ -3,23 +3,8 @@
 // Weather API and category mapping
 // ============================================
 
-// TEST MODE: Set to a time string like '21:00' (9 PM) to test, or null for real time
-// This is shared across weather.js and arc.js
-const TEST_TIME = null;
-
-// Helper to get current time (respects TEST_TIME)
-function getCurrentTime() {
-  if (TEST_TIME) {
-    const [hours, mins] = TEST_TIME.split(':').map(Number);
-    const testDate = new Date();
-    testDate.setHours(hours, mins, 0, 0);
-    return testDate.getTime();
-  }
-  return Date.now();
-}
-
 // Cache settings
-const WEATHER_CACHE_KEY = 'sf_sunshine_weather_v4'; // Bumped for shared TEST_TIME
+const WEATHER_CACHE_KEY = 'sf_sunshine_weather_v5';
 const WEATHER_CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
 const SUN_CACHE_KEY = 'sf_sunshine_sun_times';
 
@@ -65,26 +50,21 @@ function getWeatherCategory(weatherCode) {
   return 'cloudy'; // default fallback
 }
 
+// Weather display configuration
+const WEATHER_CONFIG = {
+  'sunny':        { icon: '☀️', label: 'Sunny' },
+  'clear-night':  { icon: '🌙', label: 'Clear' },
+  'partly-cloudy': { icon: '⛅', label: 'Partly Cloudy' },
+  'cloudy':       { icon: '☁️', label: 'Cloudy' },
+  'rain':         { icon: '🌧️', label: 'Rain' }
+};
+
 function getWeatherIcon(category) {
-  const icons = {
-    'sunny': '☀️',
-    'clear-night': '🌙',
-    'partly-cloudy': '⛅',
-    'cloudy': '☁️',
-    'rain': '🌧️'
-  };
-  return icons[category] || '☁️';
+  return WEATHER_CONFIG[category]?.icon || '☁️';
 }
 
 function getWeatherLabel(category) {
-  const labels = {
-    'sunny': 'Sunny',
-    'clear-night': 'Clear',
-    'partly-cloudy': 'Partly Cloudy',
-    'cloudy': 'Cloudy',
-    'rain': 'Rain'
-  };
-  return labels[category] || 'Unknown';
+  return WEATHER_CONFIG[category]?.label || 'Unknown';
 }
 
 async function fetchWeather(location) {

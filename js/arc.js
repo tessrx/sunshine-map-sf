@@ -5,7 +5,8 @@
 
 let sunTimes = null;
 
-// NOTE: TEST_TIME and getCurrentTime() are defined in weather.js
+// Time formatting options (reused for display)
+const TIME_FORMAT = { hour: 'numeric', minute: '2-digit', hour12: true };
 
 // Update UI elements for day/night mode
 function updateUIForTimeOfDay(isNight) {
@@ -59,26 +60,16 @@ function updateSunArc() {
   
   const { sunrise, sunset } = sunTimes;
   
-  // Display current time (real or test)
-  const displayTime = new Date(now).toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-    timeZone: 'America/Los_Angeles'
+  // Display current time
+  const displayTime = new Date(now).toLocaleTimeString('en-US', { 
+    ...TIME_FORMAT, 
+    timeZone: 'America/Los_Angeles' 
   });
   document.getElementById('current-time').textContent = displayTime;
   
-  // Format times for display
-  const sunriseTime = new Date(sunrise).toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true
-  });
-  const sunsetTime = new Date(sunset).toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true
-  });
+  // Format sunrise/sunset times
+  const sunriseTime = new Date(sunrise).toLocaleTimeString('en-US', TIME_FORMAT);
+  const sunsetTime = new Date(sunset).toLocaleTimeString('en-US', TIME_FORMAT);
   
   const widget = document.getElementById('sun-arc-widget');
   const daylightEl = document.getElementById('daylight-remaining');

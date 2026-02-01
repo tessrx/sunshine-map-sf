@@ -15,10 +15,6 @@ let lightTiles;
 let darkTiles;
 let currentTileLayer;
 
-// Point picker mode (for selecting custom locations)
-const PICKER_MODE = false;
-let pickedPoints = [];
-
 function initMap() {
   // Center on San Francisco proper (zoom 13 for citywide default)
   map = L.map('map').setView([37.76, -122.44], 13);
@@ -43,42 +39,8 @@ function initMap() {
   map.on('moveend', updateVisibleSunnyMessage);
   map.on('zoomend', updateVisibleSunnyMessage);
   
-  // Point picker mode - click to collect coordinates
-  if (PICKER_MODE) {
-    console.log('🎯 PICKER MODE ENABLED - Click on the map to collect points (max 30)');
-    console.log('When done, copy the array from console and share it.');
-    
-    map.on('click', (e) => {
-      if (pickedPoints.length >= 30) {
-        console.log('✅ You have 30 points! Here is your array:');
-        console.log(JSON.stringify(pickedPoints, null, 2));
-        return;
-      }
-      
-      const point = {
-        lat: Math.round(e.latlng.lat * 10000) / 10000,
-        lon: Math.round(e.latlng.lng * 10000) / 10000
-      };
-      
-      pickedPoints.push(point);
-      
-      // Add a small marker to show where you clicked
-      L.circleMarker([point.lat, point.lon], {
-        radius: 6,
-        fillColor: '#FF6B9D',
-        color: '#2D2D2D',
-        weight: 2,
-        fillOpacity: 0.8
-      }).addTo(map);
-      
-      console.log(`📍 Point ${pickedPoints.length}/30: { lat: ${point.lat}, lon: ${point.lon} }`);
-      
-      if (pickedPoints.length === 30) {
-        console.log('✅ You have 30 points! Here is your array:');
-        console.log(JSON.stringify(pickedPoints, null, 2));
-      }
-    });
-  }
+  // Initialize picker mode if enabled (from debug.js)
+  initPickerMode(map);
 }
 
 function setMapView(lat, lon, zoom) {
@@ -127,8 +89,8 @@ function renderMarkers() {
     ? currentWeatherData.filter(d => d.category === activeFilter)
     : currentWeatherData;
   
-  // Check for no sunny skies and update message
-  updateFilterMessage(dataToRender);
+  // Update message after markers are placed
+  setTimeout(updateVisibleSunnyMessage, 0);
   
   // Format the last fetch time for popups
   const timeStr = lastFetchTime ? lastFetchTime.toLocaleTimeString('en-US', { 
@@ -163,12 +125,6 @@ function renderMarkers() {
     
     markers.push(marker);
   });
-}
-
-function updateFilterMessage(dataToRender) {
-  // Message is now handled by updateVisibleSunnyMessage based on viewport
-  // Just trigger an update after markers are placed
-  setTimeout(updateVisibleSunnyMessage, 0);
 }
 
 function updateVisibleSunnyMessage() {

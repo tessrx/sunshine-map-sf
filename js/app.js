@@ -52,7 +52,7 @@ async function loadWeatherData(forceRefresh = false) {
   let weatherData;
   if (forceRefresh) {
     // Clear cache and fetch fresh
-    localStorage.removeItem('sf_sunshine_weather');
+    localStorage.removeItem(WEATHER_CACHE_KEY);
     weatherData = await fetchAllWeather(locations);
     setCachedWeather(currentView, weatherData);
   } else {
@@ -61,9 +61,6 @@ async function loadWeatherData(forceRefresh = false) {
   
   addWeatherMarkers(weatherData, currentView);
   updateLastUpdated();
-  
-  // Log for debugging
-  console.log(`Weather data loaded for ${currentView}:`, weatherData);
 }
 
 // ============================================
