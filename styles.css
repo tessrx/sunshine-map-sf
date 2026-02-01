@@ -416,6 +416,28 @@ body.night-mode .weather-marker-minimal.weather-rain {
   color: var(--color-text) !important;
 }
 
+/* Night mode popup - keep dark text on white background */
+body.night-mode .leaflet-popup-content-wrapper {
+  background: #ffffff;
+  border-color: #2D2D2D;
+  box-shadow: 3px 3px 0 #2D2D2D;
+}
+
+body.night-mode .popup-content,
+body.night-mode .popup-content strong {
+  color: #2D2D2D;
+}
+
+body.night-mode .popup-content .description,
+body.night-mode .popup-content .coords,
+body.night-mode .popup-content .updated {
+  color: #5A5A5A;
+}
+
+body.night-mode .leaflet-popup-close-button {
+  color: #2D2D2D !important;
+}
+
 /* ============================================
    Legend
    ============================================ */
