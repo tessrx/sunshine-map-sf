@@ -1,0 +1,574 @@
+/* ============================================
+   SF Sunshine Map - styles.css
+   Cute, minimal, pixel art aesthetic
+   ============================================ */
+
+:root {
+  --color-sunshine: #FFD93D;
+  --color-sky: #87CEEB;
+  --color-cloud: #E8E8E8;
+  --color-rain: #6B9BD1;
+  --color-text: #2D2D2D;
+  --color-text-light: #5A5A5A;
+  --color-bg: #F5E6D3;
+  --color-bg-alt: #FFF8DC;
+  --color-card: #FFFFFF;
+  --color-border: #2D2D2D;
+  --color-accent: #FF6B9D;
+  --font-pixel: 'Silkscreen', monospace;
+  
+  /* Pixel shadow effect */
+  --pixel-shadow: 
+    2px 2px 0 var(--color-border),
+    4px 4px 0 rgba(0,0,0,0.1);
+}
+
+/* Night mode - activated automatically at night */
+body.night-mode {
+  --color-bg: #4a4063;
+  --color-bg-alt: #5c5278;
+  --color-text: #f5f3f8;
+  --color-text-light: #d0c8e0;
+  --color-card: #6b5f8a;
+  --color-border: #f5f3f8;
+  --color-sunshine: #FFD93D;
+  --color-accent: #d4a5f9;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-pixel);
+  background-color: var(--color-bg);
+  background-image: 
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 8px 8px;
+  min-height: 100vh;
+  color: var(--color-text);
+}
+
+/* ============================================
+   Header
+   ============================================ */
+
+header {
+  padding: 2.5rem 1rem 1rem;
+  background: var(--color-bg-alt);
+  border-bottom: 3px solid var(--color-border);
+}
+
+.header-layout {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.header-content {
+  text-align: center;
+}
+
+header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.sun-icon {
+  font-size: 1.5rem;
+  animation: bounce 1s ease-in-out infinite;
+  image-rendering: pixelated;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.subtitle {
+  font-size: 0.7rem;
+  color: var(--color-text-light);
+  margin-top: 0.5rem;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
+/* ============================================
+   View Toggle
+   ============================================ */
+
+.view-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.toggle-btn {
+  font-family: var(--font-pixel);
+  font-size: 0.65rem;
+  padding: 0.4rem 0.6rem;
+  background: var(--color-card);
+  color: var(--color-text);
+  border: 2px solid var(--color-border);
+  box-shadow: 2px 2px 0 var(--color-border);
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.1s ease;
+}
+
+.toggle-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--color-border);
+}
+
+.toggle-btn.active {
+  background: var(--color-text);
+  color: var(--color-card);
+  box-shadow: inset 2px 2px 0 rgba(0,0,0,0.2);
+  transform: none;
+}
+
+/* ============================================
+   Sun Arc Widget
+   ============================================ */
+
+.sun-arc-widget {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--color-card);
+  border: 2px solid var(--color-border);
+  box-shadow: 2px 2px 0 var(--color-border);
+  padding: 0.5rem 0.75rem 0.25rem;
+  width: 160px;
+}
+
+.current-time {
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 0.25rem;
+}
+
+.sun-arc-widget.night {
+  background: #2d2845;
+  border-color: #4a3f6b;
+}
+
+.sun-arc-widget.night .current-time {
+  color: #e8e0f0;
+}
+
+.sun-arc-widget.night .arc-path {
+  stroke: #c792ea;
+}
+
+.sun-arc-widget.night .arc-times {
+  color: rgba(232, 224, 240, 0.7);
+}
+
+.arc-container {
+  width: 100%;
+}
+
+.arc-svg {
+  width: 100%;
+  height: auto;
+}
+
+.arc-path {
+  stroke: var(--color-border);
+  stroke-width: 2;
+}
+
+.arc-sun {
+  font-size: 20px;
+  transition: all 0.5s ease;
+}
+
+.arc-moon {
+  font-size: 18px;
+  opacity: 0;
+  transition: all 0.5s ease;
+}
+
+.sun-arc-widget.night .arc-sun {
+  opacity: 0;
+}
+
+.sun-arc-widget.night .arc-moon {
+  opacity: 1;
+}
+
+.sun-arc-widget.night .daylight-remaining {
+  color: #e8e0f0;
+}
+
+.arc-times {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.65rem;
+  color: var(--color-text-light);
+  margin-top: -0.25rem;
+  padding: 0 0.15rem;
+}
+
+.daylight-remaining {
+  text-align: center;
+  font-size: 0.55rem;
+  color: var(--color-text);
+  margin-top: 0.25rem;
+  min-height: 0.6rem;
+}
+
+/* ============================================
+   Main Content
+   ============================================ */
+
+main {
+  padding: 1rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ============================================
+   Map Container
+   ============================================ */
+
+#map {
+  height: 65vh;
+  min-height: 400px;
+  border: 3px solid var(--color-border);
+  box-shadow: var(--pixel-shadow);
+  background: var(--color-card);
+}
+
+/* ============================================
+   Weather Markers
+   ============================================ */
+
+.weather-marker {
+  background: var(--color-card);
+  border: 2px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 2px 0 var(--color-border);
+  transition: transform 0.1s ease;
+  image-rendering: pixelated;
+}
+
+.weather-marker:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--color-border);
+}
+
+.marker-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+/* Weather-specific marker backgrounds */
+.weather-sunny {
+  background: linear-gradient(135deg, #FFFACD 0%, #FFE4B5 100%);
+}
+
+.weather-partly-cloudy {
+  background: linear-gradient(135deg, #E0F4FF 0%, #B8E4FF 100%);
+}
+
+.weather-cloudy {
+  background: linear-gradient(135deg, #F0F0F0 0%, #D8D8D8 100%);
+}
+
+.weather-rain {
+  background: linear-gradient(135deg, #D0E8FF 0%, #A8D4FF 100%);
+}
+
+/* ============================================
+   Minimal Markers (City-wide view)
+   ============================================ */
+
+.weather-marker-minimal {
+  background: var(--color-card);
+  border: 2px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 1px 1px 0 var(--color-border);
+  transition: transform 0.1s ease;
+}
+
+.weather-marker-minimal:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 2px 2px 0 var(--color-border);
+}
+
+.marker-icon-minimal {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+/* Weather-specific backgrounds for minimal markers */
+.weather-marker-minimal.weather-sunny {
+  background: linear-gradient(135deg, #FFFACD 0%, #FFE4B5 100%);
+}
+
+.weather-marker-minimal.weather-partly-cloudy {
+  background: linear-gradient(135deg, #E0F4FF 0%, #B8E4FF 100%);
+}
+
+.weather-marker-minimal.weather-cloudy {
+  background: linear-gradient(135deg, #F0F0F0 0%, #D8D8D8 100%);
+}
+
+.weather-marker-minimal.weather-rain {
+  background: linear-gradient(135deg, #D0E8FF 0%, #A8D4FF 100%);
+}
+
+/* Night mode marker backgrounds */
+body.night-mode .weather-marker,
+body.night-mode .weather-marker-minimal {
+  background: #4a3f6b;
+  border-color: #6b5b95;
+}
+
+body.night-mode .weather-marker-minimal.weather-sunny,
+body.night-mode .weather-marker-minimal.weather-clear-night {
+  background: linear-gradient(135deg, #4a3f6b 0%, #5c4d7d 100%);
+}
+
+body.night-mode .weather-marker-minimal.weather-partly-cloudy {
+  background: linear-gradient(135deg, #3d3560 0%, #4a3f6b 100%);
+}
+
+body.night-mode .weather-marker-minimal.weather-cloudy {
+  background: linear-gradient(135deg, #353050 0%, #3d3560 100%);
+}
+
+body.night-mode .weather-marker-minimal.weather-rain {
+  background: linear-gradient(135deg, #2d2845 0%, #353050 100%);
+}
+
+/* ============================================
+   Popup Styles
+   ============================================ */
+
+.leaflet-popup-content-wrapper {
+  border-radius: 0 !important;
+  font-family: var(--font-pixel);
+  border: 2px solid var(--color-border);
+  box-shadow: 3px 3px 0 var(--color-border);
+}
+
+.leaflet-popup-content {
+  margin: 10px 14px;
+  line-height: 1.6;
+  font-size: 0.65rem;
+}
+
+.popup-content strong {
+  font-size: 0.7rem;
+  color: var(--color-text);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.popup-content .description {
+  font-size: 0.55rem;
+  color: var(--color-text-light);
+  text-transform: capitalize;
+}
+
+.popup-content .coords {
+  font-size: 0.5rem;
+  color: var(--color-text-light);
+  font-family: monospace;
+}
+
+.popup-content .updated {
+  font-size: 0.45rem;
+  color: var(--color-text-light);
+  opacity: 0.7;
+}
+
+.leaflet-popup-tip-container {
+  display: none;
+}
+
+.leaflet-popup-close-button {
+  font-family: var(--font-pixel) !important;
+  font-size: 1rem !important;
+  color: var(--color-text) !important;
+}
+
+/* ============================================
+   Legend
+   ============================================ */
+
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.65rem;
+  font-weight: 400;
+  font-family: var(--font-pixel);
+  color: var(--color-text);
+  background: var(--color-card);
+  padding: 0.4rem 0.6rem;
+  border: 2px solid var(--color-border);
+  box-shadow: 2px 2px 0 var(--color-border);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.legend-item:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--color-border);
+}
+
+.legend-item.active {
+  background: var(--color-text);
+  color: var(--color-card);
+  box-shadow: inset 2px 2px 0 rgba(0,0,0,0.2);
+  transform: none;
+}
+
+.legend-item .icon {
+  font-size: 1rem;
+}
+
+/* ============================================
+   Filter Message
+   ============================================ */
+
+.filter-message {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: var(--color-accent);
+  font-weight: 400;
+  letter-spacing: 1px;
+  min-height: 1rem;
+}
+
+/* ============================================
+   Last Updated
+   ============================================ */
+
+.last-updated {
+  text-align: center;
+  margin-top: 0.5rem;
+  font-size: 0.7rem;
+  color: var(--color-text-light);
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+
+@media (max-width: 600px) {
+  header h1 {
+    font-size: 1rem;
+    letter-spacing: 1px;
+  }
+  
+  .sun-icon {
+    font-size: 1.25rem;
+  }
+  
+  .subtitle {
+    font-size: 0.5rem;
+  }
+  
+  #map {
+    height: 55vh;
+    min-height: 300px;
+  }
+  
+  .legend {
+    gap: 0.5rem;
+  }
+  
+  .legend-item {
+    font-size: 0.5rem;
+    padding: 0.3rem 0.5rem;
+  }
+  
+  .legend-item .icon {
+    font-size: 0.9rem;
+  }
+}
+
+/* ============================================
+   Leaflet Customizations
+   ============================================ */
+
+/* Pixel-style zoom controls */
+.leaflet-control-zoom {
+  border: 2px solid var(--color-border) !important;
+  border-radius: 0 !important;
+  box-shadow: 2px 2px 0 var(--color-border) !important;
+  overflow: hidden;
+}
+
+.leaflet-control-zoom a {
+  background: var(--color-card) !important;
+  color: var(--color-text) !important;
+  border: none !important;
+  border-bottom: 2px solid var(--color-border) !important;
+  width: 28px !important;
+  height: 28px !important;
+  line-height: 26px !important;
+  font-size: 1rem !important;
+  font-family: var(--font-pixel) !important;
+  border-radius: 0 !important;
+}
+
+.leaflet-control-zoom a:last-child {
+  border-bottom: none !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background: var(--color-bg-alt) !important;
+}
+
+/* Attribution styling */
+.leaflet-control-attribution {
+  background: var(--color-card) !important;
+  font-family: var(--font-pixel) !important;
+  font-size: 0.4rem !important;
+  padding: 2px 6px !important;
+  border-radius: 0 !important;
+  border: 1px solid var(--color-border) !important;
+}
+
+.leaflet-control-attribution a {
+  color: var(--color-accent) !important;
+}

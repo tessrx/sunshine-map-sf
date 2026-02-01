@@ -1,0 +1,6 @@
+# API key config (create your own config.js with your key)
+config.js
+
+# OS files
+.DS_Store
+
