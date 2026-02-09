@@ -32,9 +32,9 @@ async function switchView(view) {
 // Data Loading
 // ============================================
 
-function updateLastUpdated() {
-  const now = new Date();
-  const timeStr = now.toLocaleTimeString('en-US', { 
+function updateLastUpdated(timestamp) {
+  const date = new Date(timestamp || Date.now());
+  const timeStr = date.toLocaleTimeString('en-US', { 
     hour: 'numeric', 
     minute: '2-digit',
     hour12: true 
@@ -60,7 +60,15 @@ async function loadWeatherData(forceRefresh = false) {
   }
   
   addWeatherMarkers(weatherData, currentView);
-  updateLastUpdated();
+  
+  // Show the time the data was actually fetched (from cache timestamp if cached)
+  try {
+    const cached = localStorage.getItem(WEATHER_CACHE_KEY);
+    const fetchTime = cached ? JSON.parse(cached).timestamp : Date.now();
+    updateLastUpdated(fetchTime);
+  } catch (e) {
+    updateLastUpdated();
+  }
 }
 
 // ============================================
