@@ -4,3 +4,6 @@ config.js
 # OS files
 .DS_Store
 
+# Worker secrets (never commit)
+worker/.dev.vars
+

@@ -3,6 +3,9 @@
 // Weather API and category mapping
 // ============================================
 
+// Cloudflare Worker proxy URL
+const WORKER_URL = 'https://sunshine-map-weather.sunshine-map-weather.workers.dev';
+
 // Cache settings
 const WEATHER_CACHE_KEY = 'sf_sunshine_weather_v5';
 const WEATHER_CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
@@ -68,7 +71,7 @@ function getWeatherLabel(category) {
 }
 
 async function fetchWeather(location) {
-  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${location.lon}&appid=${CONFIG.API_KEY}&units=imperial`;
+  const url = `${WORKER_URL}/weather?lat=${location.lat}&lon=${location.lon}`;
   
   try {
     const response = await fetch(url);
@@ -194,7 +197,7 @@ async function fetchSunTimes() {
   if (cached) return cached;
   
   console.log('Fetching fresh sun times...');
-  const url = `https://api.openweathermap.org/data/2.5/weather?lat=37.7749&lon=-122.4194&appid=${CONFIG.API_KEY}`;
+  const url = `${WORKER_URL}/weather?lat=37.7749&lon=-122.4194`;
   
   try {
     const response = await fetch(url);
