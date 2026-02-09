@@ -1,6 +1,6 @@
 # SF Sunshine Map
 
-A cute, minimal website that shows real-time weather conditions across the San Francisco Bay Area.
+A website showing real-time weather conditions across the San Francisco Bay Area (but mostly SF). Created to find sunshine on a foggy day.
 
 ## Setup
 
