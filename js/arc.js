@@ -45,6 +45,17 @@ function updateUIForTimeOfDay(isNight) {
 }
 
 async function loadSunArc() {
+  // On mobile, move the widget into the map as an overlay
+  if (window.innerWidth <= 600) {
+    const widget = document.getElementById('sun-arc-widget');
+    const mapContainer = document.getElementById('map');
+    if (widget && mapContainer) {
+      widget.style.display = '';
+      widget.classList.add('map-overlay');
+      mapContainer.appendChild(widget);
+    }
+  }
+  
   sunTimes = await fetchSunTimes();
   if (sunTimes) {
     updateSunArc();

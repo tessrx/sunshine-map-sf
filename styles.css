@@ -529,6 +529,46 @@ body.night-mode .leaflet-popup-close-button {
     font-size: 0.5rem;
   }
   
+  /* Widget moves into map on mobile via JS */
+  .sun-arc-widget.map-overlay,
+  .sun-arc-widget.map-overlay * {
+    font-family: var(--font-pixel);
+  }
+  
+  .sun-arc-widget.map-overlay {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 1000;
+    width: 110px;
+    padding: 0.3rem 0.5rem 0.15rem;
+    transform: none;
+  }
+  
+  .sun-arc-widget.map-overlay .current-time {
+    font-size: 0.55rem;
+    margin-bottom: 0.15rem;
+  }
+  
+  .sun-arc-widget.map-overlay .arc-sun {
+    font-size: 14px;
+  }
+  
+  .sun-arc-widget.map-overlay .arc-moon {
+    font-size: 13px;
+  }
+  
+  .sun-arc-widget.map-overlay .arc-times {
+    font-size: 0.55rem;
+    margin-top: -0.15rem;
+    padding: 0 0.1rem;
+  }
+  
+  .sun-arc-widget.map-overlay .daylight-remaining {
+    font-size: 0.5rem;
+    margin-top: 0.15rem;
+  }
+  
   #map {
     height: 55vh;
     min-height: 300px;
